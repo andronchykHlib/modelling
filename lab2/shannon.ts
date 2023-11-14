@@ -1,3 +1,5 @@
+import {frequencies} from "./input-values";
+
 class ShannonFanoNode {
   encoding: string;
   frequency: number;
@@ -37,5 +39,5 @@ function shannonFano(nodes) {
   return shannonFano(group1).concat(shannonFano(group2));
 }
 
-const nodes = [0.45,0.15,0.03,0.07,0.08,0.02,0.06, 0.09,0.05].map(item => new ShannonFanoNode(item))
+const nodes = frequencies.map(item => new ShannonFanoNode(item))
 console.log(shannonFano(nodes));

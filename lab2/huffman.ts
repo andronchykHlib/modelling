@@ -1,3 +1,5 @@
+import {frequencies} from "./input-values";
+
 type THuffmanNode = HuffmanNode | null
 
 class HuffmanNode {
@@ -40,5 +42,5 @@ const encode = (root: THuffmanNode, encoding  = '') => {
   }
 }
 
-const root = buildHuffmanTree([0.45,0.15,0.03,0.07,0.08,0.02,0.06, 0.09,0.05]);
+const root = buildHuffmanTree(frequencies);
 encode(root);
