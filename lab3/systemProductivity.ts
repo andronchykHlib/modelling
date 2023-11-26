@@ -3,7 +3,7 @@ interface Job {
   duration: number;
 }
 
-const inputValues: Job[] = [{start: 0, duration: 12}, {start: 4, duration: 10},  {start: 6, duration: 5}, {start: 11, duration: 8}, {start: 14, duration: 6}, {start: 18, duration: 5}];
+const inputValues: Job[] = [{start: 0, duration: 15}, {start: 3, duration: 9},  {start: 7, duration: 10}, {start: 12, duration: 6}, {start: 15, duration: 7}, {start: 20, duration: 4}];
 
 const calcSystemProductivity = (jobs: Job[]) => {
   const intervals = [];
@@ -11,13 +11,18 @@ const calcSystemProductivity = (jobs: Job[]) => {
 
   for (let i = 1; i < jobs.length; i++) {
     const currentJob = jobs[i];
-    const prevJobEnd = dp[i - 1];
     const currentJobEnds = currentJob.start + currentJob.duration;
-    const interval = Math.abs(prevJobEnd - currentJobEnds);
     dp.push(currentJobEnds);
-    dp.sort();
-    intervals.push(interval);
   }
+
+  dp.sort().forEach((item, index) => {
+    if (index  + 1 === dp.length) {
+      return;
+    }
+
+    intervals.push(Math.abs(item - dp[index + 1]));
+  })
+
   const intervalAvg = intervals.reduce((sum, interval) => sum + interval, 0) / intervals.length;
 
   return 1/intervalAvg;
