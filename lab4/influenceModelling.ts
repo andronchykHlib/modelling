@@ -1,6 +1,6 @@
 import {influenceConfiguration, states} from "./config";
 
-const getRandomInRange = (min, max) => {
+const getRandomInRange = (min: number, max: number) => {
   const floatRandom = Math.random();
   const difference = max - min;
   const random = difference * floatRandom;
@@ -15,6 +15,10 @@ const getRandomInfluenceByIntensity = () => {
       (sum, influence) => sum + influence.intensity,
       0
   );
+
+  if (Math.random() < 0.5) {
+    return null;
+  }
 
   const randomValue = Math.random() * totalIntensity;
 
@@ -44,10 +48,11 @@ const simulateInfluence = () => {
   let currentState = 0;
 
   for (let i = 1; i < 31; i++) {
+    console.log("'".repeat(i), i)
     const density = getRandomInfluenceByIntensity();
 
-    if (currentState === states.length - 1) {
-      return {currentState};
+    if (currentState === states.length) {
+      return {currentState, day: i};
     }
 
     if (!density) {
@@ -56,13 +61,14 @@ const simulateInfluence = () => {
 
     const stateData = states[currentState];
     stateProgress += density;
+    console.log({stateProgress});
     // @ts-ignore
-    const level = stateData.findLastIndex((value) => value && stateProgress >= value);
+    const nextLevel = stateData.findLastIndex((value) => value && stateProgress >= value) + 1;
 
-    if (level > currentState) {
-      console.log({stateData, stateProgress, level, density});
+    if (nextLevel > currentState) {
+      console.log({stateData, stateProgress, nextLevel, density});
       stateProgress = 0;
-      currentState = level;
+      currentState = nextLevel;
     }
   }
 }
